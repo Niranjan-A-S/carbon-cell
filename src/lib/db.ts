@@ -15,3 +15,37 @@ export const connectToDB = async () => {
         process.exit(1);
     }
 };
+
+export const getUserByEmail = async (email: string) => {
+    try {
+        return await db.user.findUnique({ where: { email } })
+    } catch (error) {
+        return null
+    }
+}
+export const getUserByID = async (id: string) => {
+    try {
+        return await db.user.findUnique({ where: { id } })
+    } catch (error) {
+        return null
+    }
+}
+
+export const getMinimalUserInfoById = async (id: string) => {
+    try {
+        return await db.user.findUnique({
+            where: {
+                id
+            },
+            select: {
+                email: true,
+                name: true,
+                id: true,
+                role: true
+            }
+        })
+
+    } catch (error) {
+        return
+    }
+}

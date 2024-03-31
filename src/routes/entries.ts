@@ -1,11 +1,11 @@
 import express from "express";
 import { requiresAuthenticated } from "../middlewares/auth-middleware";
-import { getCategoriesController, getEntriesListController, getRandomEntryController } from "../controllers/entries";
+import { getCategories, getEntriesList, getRandomEntry } from "../controllers/entries";
 
 const router = express.Router();
 
-router.route('/list').get(requiresAuthenticated, (getEntriesListController as any));
-router.route('/random').get(requiresAuthenticated, getRandomEntryController);
-router.route('/categories').get(requiresAuthenticated, getCategoriesController);
+router.route('/list').get(requiresAuthenticated, (getEntriesList as any));
+router.route('/random').get(requiresAuthenticated, getRandomEntry);
+router.route('/categories').get(requiresAuthenticated, getCategories);
 
 export { router as entriesRouter }

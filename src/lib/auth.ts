@@ -1,41 +1,6 @@
-import { StringDecoder } from "string_decoder"
-import { db } from "./db"
-import bcrypt from "bcryptjs"
-import { User } from "@prisma/client"
+import { User } from "@prisma/client";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
-export const getUserByEmail = async (email: string) => {
-    try {
-        return await db.user.findUnique({ where: { email } })
-    } catch (error) {
-        return null
-    }
-}
-export const getUserByID = async (id: string) => {
-    try {
-        return await db.user.findUnique({ where: { id } })
-    } catch (error) {
-        return null
-    }
-}
-
-export const getMinimalUserById = async (id: string) => {
-    try {
-        return await db.user.findUnique({
-            where: {
-                id
-            },
-            select: {
-                email: true,
-                name: true,
-                id: true
-            }
-        })
-
-    } catch (error) {
-        return
-    }
-}
 
 export const generateAcessToken = (user: User) => {
     const { email, id, name } = user;

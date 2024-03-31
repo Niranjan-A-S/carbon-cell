@@ -1,6 +1,6 @@
 import { RequestHandler } from "express"
-import { db } from "../lib/db";
-import { comparePassword, generateAcessToken, generateRefreshToken, getHashedPassword, getUserByEmail } from "../lib/auth";
+import { db, getUserByEmail } from "../lib/db";
+import { comparePassword, generateAcessToken, generateRefreshToken, getHashedPassword } from "../lib/auth";
 import { APIError } from "../lib/api-error";
 import { APIResponse } from "../lib/api-response";
 import { RegisterUserPayload } from "../typings";
@@ -13,13 +13,12 @@ const cookieOptions = {
     secure: process.env.NODE_ENV === 'production',
 }
 
-
-export const registerUserController: RequestHandler<any, any, RegisterUserPayload> = async (req, res, next) => {
+export const registerUser: RequestHandler<any, any, RegisterUserPayload> = async (req, res, next) => {
     try {
         const { email, name, password } = req.body;
 
         const existingUser = await getUserByEmail(email);
-        if (existingUser) throw new APIError(409, 'User already exists');
+        if (existingUser) throw new APIError(409, 'User already exists with this email.');
 
         const hashedPassword = await getHashedPassword(password);
         await db.user.create({
@@ -30,20 +29,20 @@ export const registerUserController: RequestHandler<any, any, RegisterUserPayloa
             }
         });
 
-        return res.status(201).json(new APIResponse('User created successfully', 201));
+        return res.status(201).json(new APIResponse('User created successfully!', 201));
 
     } catch (error) {
         next(error)
     }
 }
 
-export const loginUserController: RequestHandler<any, any, LoginUserPayload> = async (req, res, next) => {
+export const loginUser: RequestHandler<any, any, LoginUserPayload> = async (req, res, next) => {
 
     try {
         const { email, password } = req.body;
 
         const user = await getUserByEmail(email);
-        if (!user) throw new APIError(401, 'User not found');
+        if (!user) throw new APIError(401, 'User with specified email does not exist');
 
         const isPasswordCorrect = await comparePassword(password, user.password);
         if (!isPasswordCorrect) throw new APIError(401, 'The password you have entered for the specified email is incorrect');
@@ -51,7 +50,7 @@ export const loginUserController: RequestHandler<any, any, LoginUserPayload> = a
         const accessToken = generateAcessToken(user);
         const refreshToken = generateRefreshToken(user.id);
 
-        const loggedInUser = await db.user.update({
+        await db.user.update({
             where: {
                 id: user.id
             },
@@ -70,7 +69,6 @@ export const loginUserController: RequestHandler<any, any, LoginUserPayload> = a
             .cookie('accessToken', accessToken, cookieOptions)
             .cookie('refreshToken', refreshToken, cookieOptions)
             .json(new APIResponse('User logged in successfully', 200, {
-                user: loggedInUser,
                 accessToken,
                 refreshToken
             }));
@@ -80,7 +78,7 @@ export const loginUserController: RequestHandler<any, any, LoginUserPayload> = a
     }
 } 
 
-export const refreshAccessTokenController: RequestHandler = async (req, res, next) => {
+export const refreshAccessToken: RequestHandler = async (req, res, next) => {
     try {
         const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
         if (!incomingRefreshToken) throw new APIError(401, 'Unauthorized request.');
@@ -120,7 +118,7 @@ export const refreshAccessTokenController: RequestHandler = async (req, res, nex
     }
 }
 
-export const logoutHandler: RequestHandler = async (req, res, next) => {
+export const logout: RequestHandler = async (req, res, next) => {
     try {
         await db.user.update({
             where: {

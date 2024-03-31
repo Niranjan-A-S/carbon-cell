@@ -3,7 +3,7 @@ import { publicAPIService } from "../services/public-api-service";
 import { APIError } from "../lib/api-error";
 import { APIResponse } from "../lib/api-response";
 
-export const getEntriesListController: RequestHandler<any, any, any, { limit: number }> = async (req, res, next) => {
+export const getEntriesList: RequestHandler<any, any, any, { limit: number }> = async (req, res, next) => {
     try {
         let { data, error } = await publicAPIService.getAllEntries();
         if (!data || error) throw new APIError(404, error);
@@ -26,7 +26,7 @@ export const getEntriesListController: RequestHandler<any, any, any, { limit: nu
     }
 }
 
-export const getRandomEntryController: RequestHandler<any, any, any, { category: string }> = async (req, res, next) => {
+export const getRandomEntry: RequestHandler<any, any, any, { category: string }> = async (req, res, next) => {
     try {
         const { category } = req.query
         if (!category) throw new APIError(400, 'Category is required')
@@ -43,7 +43,7 @@ export const getRandomEntryController: RequestHandler<any, any, any, { category:
     }
 }
 
-export const getCategoriesController: RequestHandler = async (req, res, next) => {
+export const getCategories: RequestHandler = async (req, res, next) => {
     try {
         const { data, error } = await publicAPIService.getAllCategories();
         if (!data || error) throw new APIError(404, error);
