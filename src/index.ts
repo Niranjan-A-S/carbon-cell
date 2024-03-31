@@ -1,7 +1,7 @@
-import { connectToDB } from "./lib/db";
-import { startHTTPServer } from "./lib/server";
-import { app } from "./server";
-import dotenv from "dotenv";
+import { connectToDB } from './lib/db';
+import { startHTTPServer } from './lib/server';
+import { app } from './server';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
