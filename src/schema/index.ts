@@ -13,6 +13,17 @@ export const RegisterUserPayloadSchema = z.strictObject({
         .min(6, {
             message: 'Password must be at least 6 characters long'
         }),
+});
+
+export const LoginUserSchema = z.strictObject({
+    email: z.string()
+        .email({
+            message: 'Invalid email address'
+        }),
+    password: z.string()
+        .min(6, {
+            message: 'Password must be at least 6 characters long'
+        }),
 })
 
-export type RegisterUserPayload = z.infer<typeof RegisterUserPayloadSchema>
+export type LoginUserPayload = z.infer<typeof LoginUserSchema>
