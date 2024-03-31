@@ -16,14 +16,13 @@ export const RegisterUserPayloadSchema = z.strictObject({
 });
 
 export const LoginUserSchema = z.strictObject({
-    email: z.string()
-        .email({
-            message: 'Invalid email address'
-        }),
-    password: z.string()
-        .min(6, {
-            message: 'Password must be at least 6 characters long'
-        }),
+    email: RegisterUserPayloadSchema.shape.email,
+    password: RegisterUserPayloadSchema.shape.password
 })
 
 export type LoginUserPayload = z.infer<typeof LoginUserSchema>
+
+export const ChangePasswordSchema = z.strictObject({
+    password: LoginUserSchema.shape.password,
+    newPassword: LoginUserSchema.shape.password,
+})
