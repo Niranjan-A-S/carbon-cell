@@ -19,11 +19,11 @@ export const getUserByID = async (id: string) => {
     }
 }
 
-export const getMinimalUserById = async (user: User) => {
+export const getMinimalUserById = async (id: string) => {
     try {
         return await db.user.findUnique({
             where: {
-                id: user.id
+                id
             },
             select: {
                 email: true,

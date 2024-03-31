@@ -1,7 +1,7 @@
 import express from 'express';
-import { loginUserController, refreshAccessTokenController, registerUserController } from '../controllers/auth';
+import { loginUserController, logoutHandler, refreshAccessTokenController, registerUserController } from '../controllers/auth';
 import { validateLoginUserPayload, validateRegisterUserPayload } from '../validator';
-import { ignoreUnProtectedRoutes } from '../middlewares/auth-middleware';
+import { ignoreUnProtectedRoutes, requiresAuthenticated } from '../middlewares/auth-middleware';
 
 const router = express.Router();
 
@@ -9,6 +9,7 @@ router.route('/register').post(ignoreUnProtectedRoutes, validateRegisterUserPayl
 router.route('/login').post(ignoreUnProtectedRoutes, validateLoginUserPayload, loginUserController);
 
 router.route('/refreshToken').post(refreshAccessTokenController)
+router.route('/logout').post(requiresAuthenticated, logoutHandler);
 
 export { router as authRouter };
 

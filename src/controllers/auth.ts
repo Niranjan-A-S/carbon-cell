@@ -7,6 +7,13 @@ import { RegisterUserPayload } from "../typings";
 import { LoginUserPayload } from "../schema";
 import jwt from "jsonwebtoken"
 
+//TODO : revisit this
+const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+}
+
+
 export const registerUserController: RequestHandler<any, any, RegisterUserPayload> = async (req, res, next) => {
     try {
         const { email, name, password } = req.body;
@@ -58,11 +65,6 @@ export const loginUserController: RequestHandler<any, any, LoginUserPayload> = a
             }
         });
 
-        const cookieOptions = {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-        }
-
         return res
             .status(200)
             .cookie('accessToken', accessToken, cookieOptions)
@@ -105,11 +107,6 @@ export const refreshAccessTokenController: RequestHandler = async (req, res, nex
             }
         })
 
-        const cookieOptions = {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-        }
-
         return res
             .status(200)
             .cookie('accessToken', accessToken, cookieOptions)
@@ -119,6 +116,28 @@ export const refreshAccessTokenController: RequestHandler = async (req, res, nex
                 refreshToken
             }));
     } catch (error: any) {
+        next(error)
+    }
+}
+
+export const logoutHandler: RequestHandler = async (req, res, next) => {
+    try {
+        await db.user.update({
+            where: {
+                id: (req as any).user.id
+            },
+            data: {
+                refreshToken: null
+            }
+        });
+
+        return res
+            .status(200)
+            .clearCookie('accessToken', cookieOptions)
+            .clearCookie('refreshToken', cookieOptions)
+            .json(new APIResponse('User logged out successfully', 200));
+    }
+    catch (error) {
         next(error)
     }
 }
