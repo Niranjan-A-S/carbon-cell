@@ -5,6 +5,7 @@ import { APIError } from "../lib/api-error";
 import { APIResponse } from "../lib/api-response";
 import { RegisterUserPayload } from "../typings";
 import { LoginUserPayload } from "../schema";
+import jwt from "jsonwebtoken"
 
 export const registerUserController: RequestHandler<any, any, RegisterUserPayload> = async (req, res, next) => {
     try {
@@ -76,3 +77,48 @@ export const loginUserController: RequestHandler<any, any, LoginUserPayload> = a
         next(error)
     }
 } 
+
+export const refreshAccessTokenController: RequestHandler = async (req, res, next) => {
+    try {
+        const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
+        if (!incomingRefreshToken) throw new APIError(401, 'Unauthorized request.');
+
+        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET!);
+        const user = await db.user.findUnique({
+            where: {
+                id: (decodedToken as any).id
+            }
+        });
+
+        if (!user) throw new APIError(401, 'Invalid refresh token');
+        if (user.refreshToken !== incomingRefreshToken) throw new APIError(401, "Refresh token is expired or used");
+
+        const accessToken = generateAcessToken(user);
+        const refreshToken = generateRefreshToken(user.id);
+
+        await db.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                refreshToken
+            }
+        })
+
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+        }
+
+        return res
+            .status(200)
+            .cookie('accessToken', accessToken, cookieOptions)
+            .cookie('refreshToken', refreshToken, cookieOptions)
+            .json(new APIResponse('Access token refreshed successfully', 200, {
+                accessToken,
+                refreshToken
+            }));
+    } catch (error: any) {
+        next(error)
+    }
+}

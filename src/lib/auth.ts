@@ -52,9 +52,9 @@ export const generateAcessToken = (user: User) => {
 export const generateRefreshToken = (id: User['id']) => {
     return jwt.sign(
         { id },
-        process.env.ACCESS_TOKEN_SECRET!,
+        process.env.REFRESH_TOKEN_SECRET!,
         {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
     );
 }
