@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "start": "yarn build && node dist/index",
+    "start": "node dist/index",
     "build": "npx prisma generate &&  tsc",
     "lint": "eslint \"./src/**\" --fix"
   },
