@@ -25,4 +25,6 @@ export type LoginUserPayload = z.infer<typeof LoginUserSchema>
 export const ChangePasswordSchema = z.strictObject({
     password: LoginUserSchema.shape.password,
     newPassword: LoginUserSchema.shape.password,
-})
+});
+
+export type ChangePasswordPayload = z.infer<typeof ChangePasswordSchema>

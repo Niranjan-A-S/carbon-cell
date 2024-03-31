@@ -117,25 +117,3 @@ export const refreshAccessToken: RequestHandler = async (req, res, next) => {
         next(error)
     }
 }
-
-export const logout: RequestHandler = async (req, res, next) => {
-    try {
-        await db.user.update({
-            where: {
-                id: (req as any).user.id
-            },
-            data: {
-                refreshToken: null
-            }
-        });
-
-        return res
-            .status(200)
-            .clearCookie('accessToken', cookieOptions)
-            .clearCookie('refreshToken', cookieOptions)
-            .json(new APIResponse('User logged out successfully', 200));
-    }
-    catch (error) {
-        next(error)
-    }
-}

@@ -1,10 +1,10 @@
-import { RequestHandler } from "express";
+import { Request, RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { APIError } from "../lib/api-error";
 import { getMinimalUserInfoById } from "../lib/db";
 import { APIResponse } from "../lib/api-response";
 
-export const requiresAuthenticated: RequestHandler = async (req, res, next) => {
+export const requiresAuthenticated: RequestHandler = async (req, _res, next) => {
     try {
     const accessToken =
         req.cookies?.accessToken ||
@@ -33,7 +33,7 @@ export const ignoreUnProtectedRoutes: RequestHandler = async (req, res, next) =>
         const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET!);
         const user = await getMinimalUserInfoById((decodedToken as any)?.id);
         (req as any).user = user;
-        return res.status(200).json(new APIResponse('User session already active', 409, user));
+        return res.status(200).json(new APIResponse('User session already active', 409));
     } catch (error) {
         next()
     }
