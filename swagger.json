@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.3",
     "info": {
-        "title": "NodeJS Assessment API DOCS",
+        "title": "Node JS Assessment API Docs",
         "description": "This documentation contains the information about the  REST API endpoints in the NodeJS Assessment.",
         "version": "1.2.0",
         "contact": {

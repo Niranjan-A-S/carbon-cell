@@ -22,7 +22,7 @@ app.use('/api/entries', entriesRouter);
 //user router
 app.use('/api/user', userRouter);
 
-//web3 route
+//web3 router
 app.use('/api/web3', web3Router)
 
 //swagger

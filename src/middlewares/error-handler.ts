@@ -1,7 +1,7 @@
 import { ErrorRequestHandler } from "express";
 import { APIError } from "../lib/api-error";
 
-export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     let error = err;
 
     if (!(err instanceof APIError)) {
