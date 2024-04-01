@@ -10,6 +10,9 @@
     "outDir": "dist",
     "rootDir": "src",
     "moduleResolution": "node",
+    "types": [
+      "web3",
+    ]
   },
   "include": [
     "src/"
