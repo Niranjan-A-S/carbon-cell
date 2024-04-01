@@ -5,11 +5,8 @@ import swaggerDocument from "../swagger.json";
 import { errorHandler } from './middlewares/error-handler';
 import { authRouter } from './routes/auth';
 import { entriesRouter } from './routes/entries';
-import { userRouter } from "./routes/user";
-import { web3Service } from "./services/web3";
-import { APIError } from "./lib/api-error";
-import { APIResponse } from "./lib/api-response";
 import { web3Router } from "./routes/routes";
+import { userRouter } from "./routes/user";
 
 const app = express();
 

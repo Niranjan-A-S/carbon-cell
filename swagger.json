@@ -660,7 +660,7 @@
             "description": "This section encompasses all the APIs related to fetching data from an external API service."
         },
         {
-            "name": "Web3",
+            "name": "🌐 Web3",
             "description": "This section encompasses the API endpoint to retrieve the balance of a specified Ethereum account."
         }
     ]
