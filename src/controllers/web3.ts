@@ -3,7 +3,7 @@ import { APIError } from "../lib/api-error";
 import { APIResponse } from "../lib/api-response";
 import { web3Service } from "../services/web3";
 
-export const getEthereumBalance: RequestHandler<any, any, any, { address: string }> = async (req, res, next) => {
+export const getEthereumAccountBalance: RequestHandler<any, any, any, { address: string }> = async (req, res, next) => {
     try {
         const { address } = req.query;
         if (!address) throw new APIError(400, 'Ethereum Address is required');

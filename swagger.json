@@ -596,6 +596,58 @@
                     }
                 }
             }
+        },
+        "/web3/balance": {
+            "get": {
+                "tags": [
+                    "🌐 Web3"
+                ],
+                "summary": "Get ethereum account balance",
+                "description": "Fetches the balance of a specified Ethereum account.",
+                "operationId": "getEthereumAccountBalance",
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Address of the Ethereum account",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ethereum balance fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ethereum balance fetched successfully"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "balance": {
+                                                    "type": "string",
+                                                    "example": "0."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -606,6 +658,10 @@
         {
             "name": "📚 Entries",
             "description": "This section encompasses all the APIs related to fetching data from an external API service."
+        },
+        {
+            "name": "Web3",
+            "description": "This section encompasses the API endpoint to retrieve the balance of a specified Ethereum account."
         }
     ]
 }
