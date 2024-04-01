@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "start": "node dist/index",
-    "build": "npx prisma generate &&  tsc",
+    "build": "yarn install && npx prisma generate &&  tsc",
     "lint": "eslint \"./src/**\" --fix"
   },
   "devDependencies": {
