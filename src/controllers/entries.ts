@@ -9,13 +9,13 @@ export const getEntriesList: RequestHandler<any, any, any, { limit: number }> = 
         if (!data || error) throw new APIError(404, error);
 
         const { limit } = req.query;
-        let message = limit === 1 ? 'Fetched single entry' : 'Fetched all entries';
+        let message = 'Fetched all entries';
         if (limit !== undefined && limit !== null) {
             if (limit > data.count) {
                 message = 'Specified limit is greater than number of entries, hence fetched all entries';
             } else {
                 data = { count: limit, entries: data.entries.slice(0, limit) };
-                message = `Fetched ${limit} entries`;
+                message = limit === 1 ? `Fetched single entry` : `Fetched ${limit} entries`;
             }
         }
         return res
