@@ -9,13 +9,7 @@
     "resolveJsonModule": true,
     "outDir": "dist",
     "rootDir": "src",
-    "moduleResolution": "node",
-    "types": [
-      "web3",
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "moduleResolution": "node"
   },
   "include": [
     "src/"
