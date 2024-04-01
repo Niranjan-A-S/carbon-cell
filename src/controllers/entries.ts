@@ -8,9 +8,10 @@ export const getEntriesList: RequestHandler<any, any, any, { limit: number }> = 
         let { data, error } = await publicAPIService.getAllEntries();
         if (!data || error) throw new APIError(404, error);
 
-        const { limit } = req.query;
+        let limit = req.query.limit;
         let message = 'Fetched all entries';
         if (limit !== undefined && limit !== null) {
+            limit = +limit;
             if (limit > data.count) {
                 message = 'Specified limit is greater than number of entries, hence fetched all entries';
             } else {
