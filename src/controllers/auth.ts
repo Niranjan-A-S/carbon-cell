@@ -50,7 +50,7 @@ export const loginUser: RequestHandler<any, any, LoginUserPayload> = async (req,
         const accessToken = generateAcessToken(user);
         const refreshToken = generateRefreshToken(user.id);
 
-        await db.user.update({
+        const loggedInUser = await db.user.update({
             where: {
                 id: user.id
             },
@@ -60,7 +60,8 @@ export const loginUser: RequestHandler<any, any, LoginUserPayload> = async (req,
             select: {
                 email: true,
                 name: true,
-                id: true
+                id: true,
+                role: true
             }
         });
 
@@ -70,7 +71,8 @@ export const loginUser: RequestHandler<any, any, LoginUserPayload> = async (req,
             .cookie('refreshToken', refreshToken, cookieOptions)
             .json(new APIResponse('User logged in successfully', 200, {
                 accessToken,
-                refreshToken
+                refreshToken,
+                user: loggedInUser
             }));
 
     } catch (error) {

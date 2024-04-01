@@ -1,0 +1,459 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "NodeJS Assessment API DOCS",
+        "description": "This documentation contains the information about the  REST API endpoints in the NodeJS Assessment.",
+        "version": "1.2.0",
+        "contact": {
+            "name": "Niranjan A S",
+            "email": "niranjan0881@gmail.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/api"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "🔐 Authentication"
+                ],
+                "summary": "Register user",
+                "description": "The API endpoint allows users to register or signup to create their accounts.",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "Pass@word1"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "email": "johndoe@example.com",
+                                "password": "Pass@word1",
+                                "name": "John Doe"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Register user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully!"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Register user": {
+                                        "value": {
+                                            "message": "User created successfully!",
+                                            "statusCode": 200,
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "🔐 Authentication"
+                ],
+                "summary": "Login user",
+                "description": "The API endpoint allows users to log into the application securely and also returns an access token.\n\nWhen accessing this endpoint with valid login credentials, users will receive an access token and a refresh token in the response.\n\nAdditionally, the API endpoint securely sets the access token within the browser/client httpOnly cookies for future authentication and authorization purposes.\n\nThis functionality ensures a secure and efficient login process for users, providing them with an access token that can be used to authenticate subsequent API requests.\n\nBy securely storing the access token in browser cookies, the endpoint enables automatic inclusion of the access token in future API requests, eliminating the need for users to manually manage and provide the token with each request.",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "example": "Pass@word1"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "password": "Pass@word1",
+                                "email": "johndoe@example.com"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "accessToken": {
+                                                    "type": "string",
+                                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJlbWFpbCI6IndhamUuc2h1YmhhbTExMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IndhamVzaHViaGFtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjg4MTA3NDY5LCJleHAiOjE2ODgxOTM4Njl9.40qfVrWi8x8fGBRB9JBVCVsdMYvlwzjIRpffz5z7DK4"
+                                                },
+                                                "refreshToken": {
+                                                    "type": "string",
+                                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho"
+                                                },
+                                                "user": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "example": "f619c696-5c0c-4a0c-a50f-8467e3684755"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "johndoe@example.com"
+                                                        },
+                                                        "role": {
+                                                            "type": "string",
+                                                            "example": "GUEST"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User logged in successfully"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Login user": {
+                                        "value": {
+                                            "data": {
+                                                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJlbWFpbCI6IndhamUuc2h1YmhhbTExMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IndhamVzaHViaGFtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjg4MTA3NDY5LCJleHAiOjE2ODgxOTM4Njl9.40qfVrWi8x8fGBRB9JBVCVsdMYvlwzjIRpffz5z7DK4",
+                                                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho",
+                                                "user": {
+                                                    "id": "f619c696-5c0c-4a0c-a50f-8467e3684755",
+                                                    "email": "johndoe@example.com",
+                                                    "role": "GUEST",
+                                                    "name": "John Doe"
+                                                }
+                                            },
+                                            "message": "User logged in successfully",
+                                            "statusCode": 200,
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/logout": {
+            "post": {
+                "tags": [
+                    "🔐 Authentication"
+                ],
+                "summary": "Logout user",
+                "description": "The API endpoint is responsible for logging out users from the application and destroying the access token cookies stored on the client-side and it also removes the refresh token stored in the db user session.\n\nWhen accessing this endpoint, it triggers the logout process, revoking the user's authentication and terminating their active session.\n\nAdditionally, it ensures that any access token cookies associated with the user's session are removed from the client's browser, effectively logging them out from the application.",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "Logout user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User logged out successfully"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Logout user": {
+                                        "value": {
+                                            "message": "User logged out successfully",
+                                            "statusCode": 200,
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/refresh-token": {
+            "post": {
+                "tags": [
+                    "🔐 Authentication"
+                ],
+                "summary": "Refresh token",
+                "description": "The Refresh Access Token API is responsible for refreshing the access token when it expires.\n\nIt allows you to make a request to this endpoint with the refresh token, which has a lengthy expiry time, to obtain a new access token.\n\nSimultaneously, the API sets the new access token in a cookie for future authentication purposes while replacing the expired one.\n\nThis functionality ensures continuous access to protected resources by automatically renewing the access token **without requiring the user to reauthenticate manually**.\n\nBy utilizing the refresh token, the API securely refreshes the access token and updates it in the cookie, ensuring seamless and uninterrupted access to authorized endpoints.",
+                "operationId": "refreshToken",
+                "responses": {
+                    "200": {
+                        "description": "Refresh token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "accessToken": {
+                                                    "type": "string",
+                                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc2ZTM0ZWJlMWNmYjljYzA4YmQ0NDYiLCJlbWFpbCI6IndhamUuc2h1YmhhbTExMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IndhamVzaHViaGFtIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODU1NjMyMjEsImV4cCI6MTY4NTY0OTYyMX0.o6vbC9qrMHV_FfQNFZX3h053eOHvBgbl0iQJSB5NeNc"
+                                                },
+                                                "refreshToken": {
+                                                    "type": "string",
+                                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc2ZTM0ZWJlMWNmYjljYzA4YmQ0NDYiLCJpYXQiOjE2ODU1NjMyMjEsImV4cCI6MTY4NjQyNzIyMX0.TJpj8-2qU__GI_dKDdrHwQvUWCFSFXCfgOuV6MV05UI"
+                                                }
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Access token refreshed successfully"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Refresh token": {
+                                        "value": {
+                                            "data": {
+                                                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc2ZTM0ZWJlMWNmYjljYzA4YmQ0NDYiLCJlbWFpbCI6IndhamUuc2h1YmhhbTExMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IndhamVzaHViaGFtIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODU1NjMyMjEsImV4cCI6MTY4NTY0OTYyMX0.o6vbC9qrMHV_FfQNFZX3h053eOHvBgbl0iQJSB5NeNc",
+                                                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc2ZTM0ZWJlMWNmYjljYzA4YmQ0NDYiLCJpYXQiOjE2ODU1NjMyMjEsImV4cCI6MTY4NjQyNzIyMX0.TJpj8-2qU__GI_dKDdrHwQvUWCFSFXCfgOuV6MV05UI"
+                                            },
+                                            "message": "Access token refreshed successfully",
+                                            "statusCode": 200,
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/current": {
+            "get": {
+                "tags": [
+                    "🔐 Authentication"
+                ],
+                "summary": "Get logged in user",
+                "description": "The API endpoint allows you to retrieve the details of the currently logged-in user based on their authentication token.\n\nWhen accessing this endpoint with a valid authentication token, you will receive a response containing the information of the user who is currently authenticated and logged in.",
+                "operationId": "getLoggedInUser",
+                "responses": {
+                    "200": {
+                        "description": "Get logged in user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "f619c696-5c0c-4a0c-a50f-8467e3684755"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "johndoe@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "GUEST"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                }
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetched current user!"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Get logged in user": {
+                                        "value": {
+                                            "message": "Fetched current user",
+                                            "statusCode": 200,
+                                            "data": {
+                                                "user": {
+                                                    "email": "johndoe@example.com",
+                                                    "name": "test_user",
+                                                    "id": "f619c696-5c0c-4a0c-a50f-8467e3684755",
+                                                    "role": "GUEST"
+                                                }
+                                            },
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/change-password": {
+            "post": {
+                "tags": [
+                    "🔐 Authentication"
+                ],
+                "summary": "Change current password",
+                "description": "The Change Password API allows logged-in users to update their current password by providing the old password as a verification step.\n\nThis API provides a secure mechanism for users to change their passwords within the application.\n\nBy accessing this endpoint and providing the old password, users can initiate the password change process and set a new password of their choice.",
+                "operationId": "changeCurrentPassword",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "newPassword": {
+                                        "type": "string",
+                                        "example": "Pass@word1"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "Pass@word2"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "newPassword": "Pass@word1",
+                                "password": "Pass@word2"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Change current password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Password changed successfully"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Change current password": {
+                                        "value": {
+                                            "message": "Password changed successfully",
+                                            "statusCode": 200,
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "🔐 Authentication",
+            "description": "This section encompasses all the APIs related to user authentication."
+        }
+    ]
+}

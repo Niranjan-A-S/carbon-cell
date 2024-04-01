@@ -7,7 +7,7 @@ import { logout } from "../controllers/user"
 const router = express.Router();
 
 router.route('/current').get(requiresAuthenticated, getCurrentUser);
-router.route('/change-password').get(requiresAuthenticated, validateChangePasswordPayload, changePassword);
+router.route('/change-password').post(requiresAuthenticated, validateChangePasswordPayload, changePassword);
 router.route('/logout').post(requiresAuthenticated, logout);
 
 export { router as userRouter }

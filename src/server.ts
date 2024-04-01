@@ -1,5 +1,7 @@
 import cookies from "cookie-parser";
 import express from 'express';
+import swaggerUI from "swagger-ui-express";
+import swaggerDocument from "../swagger.json";
 import { errorHandler } from './middlewares/error-handler';
 import { authRouter } from './routes/auth';
 import { entriesRouter } from './routes/entries';
@@ -18,6 +20,17 @@ app.use('/api/entries', entriesRouter);
 
 //user routes
 app.use('/api/user', userRouter);
+
+//swagger
+app.use('/',
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerDocument, {
+        swaggerOptions: {
+            docExpansion: "none",
+        },
+        customSiteTitle: "Node JS Assessment API Docs"
+    }
+    ));
 
 app.use(errorHandler);
 
