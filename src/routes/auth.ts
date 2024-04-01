@@ -8,7 +8,7 @@ const router = express.Router();
 router.route('/register').post(ignoreUnProtectedRoutes, validateRegisterUserPayload, registerUser);
 router.route('/login').post(ignoreUnProtectedRoutes, validateLoginUserPayload, loginUser);
 
-router.route('/refreshToken').post(refreshAccessToken);
+router.route('/refresh-token').post(refreshAccessToken);
 
 export { router as authRouter };
 

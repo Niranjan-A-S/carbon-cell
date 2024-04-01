@@ -33,7 +33,7 @@ export const ignoreUnProtectedRoutes: RequestHandler = async (req, res, next) =>
         const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET!);
         const user = await getMinimalUserInfoById((decodedToken as any)?.id);
         (req as any).user = user;
-        return res.status(200).json(new APIResponse('User session already active', 409));
+        return res.status(409).json(new APIResponse('User session already active', 409));
     } catch (error) {
         next()
     }

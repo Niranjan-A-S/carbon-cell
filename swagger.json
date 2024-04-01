@@ -366,7 +366,7 @@
                                             "data": {
                                                 "user": {
                                                     "email": "johndoe@example.com",
-                                                    "name": "test_user",
+                                                    "name": "John Doe",
                                                     "id": "f619c696-5c0c-4a0c-a50f-8467e3684755",
                                                     "role": "GUEST"
                                                 }
@@ -397,17 +397,17 @@
                                 "properties": {
                                     "newPassword": {
                                         "type": "string",
-                                        "example": "Pass@word1"
+                                        "example": "Pass@word2"
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "Pass@word2"
+                                        "example": "Pass@word1"
                                     }
                                 }
                             },
                             "example": {
-                                "newPassword": "Pass@word1",
-                                "password": "Pass@word2"
+                                "newPassword": "Pass@word2",
+                                "password": "Pass@word1"
                             }
                         }
                     }
@@ -448,12 +448,164 @@
                     }
                 }
             }
+        },
+        "/entries/list": {
+            "get": {
+                "tags": [
+                    "📚 Entries"
+                ],
+                "summary": "Get entries list",
+                "description": "Fetches a list of entries. Optionally, you can specify a limit to the number of entries returned.",
+                "operationId": "getEntriesList",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the number of entries returned",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched entries list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetched all entries"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "count": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "entries": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/entries/random": {
+            "get": {
+                "tags": [
+                    "📚 Entries"
+                ],
+                "summary": "Get random entry",
+                "description": "Fetches a random entry based on a specified category.",
+                "operationId": "getRandomEntry",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Category to fetch a random entry from",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched random entry",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Random entry based on category"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/entries/categories": {
+            "get": {
+                "tags": [
+                    "📚 Entries"
+                ],
+                "summary": "Get categories",
+                "description": "Fetches a list of all available categories.",
+                "operationId": "getCategories",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetched all categories"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "🔐 Authentication",
             "description": "This section encompasses all the APIs related to user authentication."
+        },
+        {
+            "name": "📚 Entries",
+            "description": "This section encompasses all the APIs related to fetching data from an external API service."
         }
     ]
 }
