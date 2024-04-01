@@ -1,4 +1,3 @@
-import nodeFetch from "node-fetch";
 
 class PublicAPIService {
     domain: string;
@@ -8,7 +7,7 @@ class PublicAPIService {
 
     async getAllEntries(): Promise<{ data?: any, error?: string }> {
         try {
-            const response = await nodeFetch(`${this.domain}/entries`);
+            const response = await fetch(`${this.domain}/entries`);
             const data = await response.json();
             return { data }
         } catch (error: any) {
@@ -18,7 +17,7 @@ class PublicAPIService {
 
     async getEntriesBasedOnCategory(category: string): Promise<{ data?: any, error?: string }> {
         try {
-            const response = await nodeFetch(`${this.domain}/random?category=${category}`);
+            const response = await fetch(`${this.domain}/random?category=${category}`);
             const { entries } = await response.json();
             return { data: entries }
         } catch (error: any) {
@@ -28,7 +27,7 @@ class PublicAPIService {
 
     async getAllCategories(): Promise<{ data?: any, error?: string }> {
         try {
-            const response = await nodeFetch(`${this.domain}/categories`);
+            const response = await fetch(`${this.domain}/categories`);
             const { categories } = await response.json();
             return { data: categories }
         } catch (error: any) {
